@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Map, AlertCircle, CheckCircle2, Search, ArrowRight, Lightbulb } from 'lucide-react';
 import HeatMap from '../components/HeatMap';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 interface Evidence {
   id: string;
   type: string;
@@ -41,7 +43,7 @@ const EvidenceBoard = () => {
   const startCase = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/session/start', { method: 'POST' });
+      const res = await fetch(`${API_URL}/session/start`, { method: 'POST' });
       if (!res.ok) throw new Error("Failed to start session");
       const data = await res.json();
       
@@ -62,7 +64,7 @@ const EvidenceBoard = () => {
     setFeedback(null);
     setHint(null);
     try {
-      const res = await fetch(`/session/${sessionId}/answer`, {
+      const res = await fetch(`${API_URL}/session/${sessionId}/answer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answer: inputValue })
@@ -93,7 +95,7 @@ const EvidenceBoard = () => {
   const requestHint = async () => {
     if (!sessionId) return;
     try {
-      const res = await fetch(`/session/${sessionId}/hint`, { method: 'POST' });
+      const res = await fetch(`${API_URL}/session/${sessionId}/hint`, { method: 'POST' });
       const data = await res.json();
       setHint(data.hint);
     } catch (err) {
@@ -103,7 +105,7 @@ const EvidenceBoard = () => {
 
   const openFinal = async () => {
     try {
-      const res = await fetch(`/session/${sessionId}/final/question`);
+      const res = await fetch(`${API_URL}/session/${sessionId}/final/question`);
       const data = await res.json();
       setFinalQuestion(data.question);
       setFinalMode(true);
@@ -115,7 +117,7 @@ const EvidenceBoard = () => {
   const submitFinal = async () => {
     setIsSubmitting(true);
     try {
-      const res = await fetch(`/session/${sessionId}/final`, {
+      const res = await fetch(`${API_URL}/session/${sessionId}/final`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ findings: inputValue })

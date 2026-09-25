@@ -8,6 +8,8 @@ interface HeatMapProps {
   onClose: () => void;
 }
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const colorForDelta = (d: number | null | undefined) => {
   if (d === null || d === undefined) return '#888';
   if (d < 0) return '#2b6cb0'; // Cooling
@@ -22,13 +24,13 @@ const HeatMap: React.FC<HeatMapProps> = ({ onClose }) => {
 
   useEffect(() => {
     // Fetch Heat Map Data
-    fetch('/map/heat')
+    fetch(`${API_URL}/map/heat`)
       .then(res => res.json())
       .then(data => setGeoData(data))
       .catch(err => console.error("Failed to load map data:", err));
       
     // Fetch Hotspots Summary
-    fetch('/map/hotspots?n=5')
+    fetch(`${API_URL}/map/hotspots?n=5`)
       .then(res => res.json())
       .then(data => setSummary(data))
       .catch(err => console.error("Failed to load hotspots:", err));
