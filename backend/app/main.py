@@ -8,7 +8,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from . import game_session, graph_session, nasa_geo
+from . import game_session, graph_session, nasa_geo, analytics
 from .models import (
     AnswerResult, AnswerSubmission, FinalFeedback, FinalSubmission, HintResponse,
     PublicLevel, SessionStartResponse,
@@ -27,6 +27,8 @@ app.add_middleware(
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+app.include_router(analytics.router)
 
 
 @app.get("/map/heat")
