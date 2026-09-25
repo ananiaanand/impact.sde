@@ -34,7 +34,7 @@ const InvestigationPage = () => {
     }
   };
 
-  const handleGameStart = (id: string) => {
+  const handleGameStart = () => {
     setShowSetup(false);
     setShowGame(true);
   };
