@@ -87,10 +87,10 @@ maps, statements). Clearly mark each evidence item's type as "nasa" (must includ
 source record_id/value/timestamp/location from the data above) or "fictional" (invented \
 narrative document, no source_metadata).
 
-CRITICAL: Format the `content` field to look like an authentic game asset. 
-For "nasa" evidence, do NOT write "NASA dataset record at...". Instead write it like a real telemetry log: 
-"SATELLITE TELEMETRY (MODIS SENSOR) -- [TIMESTAMP: <time>]\nLOCATION SCAN: <loc>\nANALYSIS: <var> recorded at <val> <unit>"
-For "fictional" documents, format them as intercepted emails, confidential memos, or chat logs, rather than just "In-world document hinting at...".
+CRITICAL: Format the `content` field to look like an authentic game asset, BUT ensure it is understandable to a student. 
+For "nasa" evidence, format it as a telemetry log, and ADD an AI interpretation that explains the real-world meaning of the data value so students can solve the puzzle. Example:
+"SATELLITE TELEMETRY (MODIS SENSOR) -- [TIMESTAMP: <time>]\nLOCATION SCAN: <loc>\nANALYSIS: <var> recorded at <val> <unit>\n\n>> SYSTEM INTERPRETATION: This indicates a severe loss of green space and vegetation in the district."
+For "fictional" documents, format them as intercepted emails, confidential memos, or chat logs, but ensure the core clue is clear enough for a student to understand what went wrong.
 
 Not every level needs to explicitly name an SDG target — let the player discover relevance \
 naturally through 2-3 levels, then surface it as an investigable question in others.
