@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import FadeIn from '../components/FadeIn';
 import { sdgData } from '../data/marqueeImages';
@@ -10,7 +10,7 @@ const InvestigationPage = () => {
   const [user, setUser] = useState<any>(null);
   const [showSetup, setShowSetup] = useState(false);
   const [showGame, setShowGame] = useState(false);
-  const [roomId, setRoomId] = useState<string | null>(null);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -35,7 +35,6 @@ const InvestigationPage = () => {
   };
 
   const handleGameStart = (id: string) => {
-    setRoomId(id);
     setShowSetup(false);
     setShowGame(true);
   };

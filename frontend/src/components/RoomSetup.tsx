@@ -24,15 +24,6 @@ const RoomSetup: React.FC<RoomSetupProps> = ({ user, onGameStart }) => {
   useEffect(() => {
     if (activeRoom) {
       const fetchPlayers = async () => {
-        const { data } = await supabase
-          .from('room_players')
-          .select('user_id, joined_at, auth.users (email)')
-          .eq('room_id', activeRoom.id);
-        
-        // This is a workaround since querying auth.users from public is usually restricted by RLS
-        // For simplicity, we just count them or fetch if public policy allows.
-        
-        // Simpler way: just get the rows
         const { data: playersData } = await supabase
           .from('room_players')
           .select('*')

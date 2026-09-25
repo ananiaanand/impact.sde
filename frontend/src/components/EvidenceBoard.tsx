@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Map, AlertCircle, CheckCircle2, Search, ArrowRight, Lightbulb } from 'lucide-react';
 import HeatMap from '../components/HeatMap';

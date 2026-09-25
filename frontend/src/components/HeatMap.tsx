@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import { LayersControl } from 'react-leaflet';
-import L from 'leaflet';
+
 import 'leaflet/dist/leaflet.css';
 
 interface HeatMapProps {
