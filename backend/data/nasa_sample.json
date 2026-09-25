@@ -1,0 +1,29 @@
+{
+  "dataset_id": "NASA-EARTHDATA-URBAN-SAMPLE-2026",
+  "records": [
+    {"record_id": "R001", "variable": "NDVI_vegetation_index", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2018-06-01", "value": 0.62, "unit": "index_0_1"},
+    {"record_id": "R002", "variable": "NDVI_vegetation_index", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2021-06-01", "value": 0.31, "unit": "index_0_1"},
+    {"record_id": "R003", "variable": "NDVI_vegetation_index", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2024-06-01", "value": 0.19, "unit": "index_0_1"},
+    {"record_id": "R004", "variable": "land_surface_temperature", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2018-06-01", "value": 28.4, "unit": "celsius"},
+    {"record_id": "R005", "variable": "land_surface_temperature", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2024-06-01", "value": 34.7, "unit": "celsius"},
+    {"record_id": "R006", "variable": "precipitation_daily_max", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2023-03-14", "value": 118.2, "unit": "mm"},
+    {"record_id": "R007", "variable": "impervious_surface_pct", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2018-01-01", "value": 42.0, "unit": "percent"},
+    {"record_id": "R008", "variable": "impervious_surface_pct", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2023-01-01", "value": 71.0, "unit": "percent"},
+    {"record_id": "R009", "variable": "flood_extent", "location": "Rioverde District", "lat": -12.05, "lon": -77.05, "timestamp": "2023-03-15", "value": 2.3, "unit": "sq_km"},
+
+    {"record_id": "R101", "variable": "NDVI_vegetation_index", "location": "Port Halden", "lat": 6.45, "lon": 3.4, "timestamp": "2017-05-01", "value": 0.55, "unit": "index_0_1"},
+    {"record_id": "R102", "variable": "NDVI_vegetation_index", "location": "Port Halden", "lat": 6.45, "lon": 3.4, "timestamp": "2022-05-01", "value": 0.22, "unit": "index_0_1"},
+    {"record_id": "R103", "variable": "land_surface_temperature", "location": "Port Halden", "lat": 6.45, "lon": 3.4, "timestamp": "2017-05-01", "value": 29.1, "unit": "celsius"},
+    {"record_id": "R104", "variable": "land_surface_temperature", "location": "Port Halden", "lat": 6.45, "lon": 3.4, "timestamp": "2022-05-01", "value": 35.9, "unit": "celsius"},
+    {"record_id": "R105", "variable": "nighttime_lights_radiance", "location": "Port Halden", "lat": 6.45, "lon": 3.4, "timestamp": "2022-05-01", "value": 41.6, "unit": "nanowatts_cm2_sr"},
+    {"record_id": "R106", "variable": "informal_settlement_area", "location": "Port Halden", "lat": 6.45, "lon": 3.4, "timestamp": "2017-01-01", "value": 1.4, "unit": "sq_km"},
+    {"record_id": "R107", "variable": "informal_settlement_area", "location": "Port Halden", "lat": 6.45, "lon": 3.4, "timestamp": "2022-01-01", "value": 3.9, "unit": "sq_km"},
+
+    {"record_id": "R201", "variable": "NDVI_vegetation_index", "location": "Cedar Hollow", "lat": 40.71, "lon": -74.3, "timestamp": "2019-07-01", "value": 0.71, "unit": "index_0_1"},
+    {"record_id": "R202", "variable": "NDVI_vegetation_index", "location": "Cedar Hollow", "lat": 40.71, "lon": -74.3, "timestamp": "2024-07-01", "value": 0.44, "unit": "index_0_1"},
+    {"record_id": "R203", "variable": "land_surface_temperature", "location": "Cedar Hollow", "lat": 40.71, "lon": -74.3, "timestamp": "2019-07-01", "value": 26.0, "unit": "celsius"},
+    {"record_id": "R204", "variable": "land_surface_temperature", "location": "Cedar Hollow", "lat": 40.71, "lon": -74.3, "timestamp": "2024-07-01", "value": 31.8, "unit": "celsius"},
+    {"record_id": "R205", "variable": "road_network_density", "location": "Cedar Hollow", "lat": 40.71, "lon": -74.3, "timestamp": "2024-01-01", "value": 8.9, "unit": "km_per_sqkm"},
+    {"record_id": "R206", "variable": "transit_stop_coverage_pct", "location": "Cedar Hollow", "lat": 40.71, "lon": -74.3, "timestamp": "2024-01-01", "value": 38.0, "unit": "percent"}
+  ]
+}
