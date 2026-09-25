@@ -134,8 +134,9 @@ def _mock_levels(blueprint: dict, nasa_records: list[dict], num_levels: int = 6)
                     "id": f"ev-{lvl_num}-{r['record_id']}",
                     "type": "nasa",
                     "title": f"{var.replace('_', ' ').title()} record ({r['timestamp']})",
-                    "content": f"NASA dataset record at {r['location']} on {r['timestamp']}: "
-                               f"{var.replace('_', ' ')} = {r['value']} {r.get('unit', '')}.",
+                    "content": f"SATELLITE TELEMETRY (MODIS SENSOR) -- [TIMESTAMP: {r['timestamp']}]\n\n"
+                               f"LOCATION SCAN: {r['location']}\n"
+                               f"ANALYSIS: {var.replace('_', ' ').title()} recorded at {r['value']} {r.get('unit', '')}.",
                     "source_metadata": {
                         "source": "NASA", "dataset_id": "NASA-EARTHDATA-URBAN-SAMPLE-2026",
                         "record_id": r["record_id"], "variable": var,
@@ -147,7 +148,7 @@ def _mock_levels(blueprint: dict, nasa_records: list[dict], num_levels: int = 6)
             "type": "fictional",
             "title": rnd.choice(["Planning memo", "Inspection log excerpt", "Resident statement",
                                   "Council meeting transcript excerpt"]),
-            "content": f"In-world document hinting at: {step}",
+            "content": f"CONFIDENTIAL // EYES ONLY\n\nIntercepted transcript or file fragment:\n\n\"{step}\"",
             "source_metadata": None,
         })
 

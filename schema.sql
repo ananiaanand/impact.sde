@@ -2,14 +2,31 @@
 
 -- 1. Users / Roles
 -- Assuming auth.users already exists, we use public profiles.
-CREATE TABLE public.profiles (
+CREATE TABLE IF NOT EXISTS public.profiles (
   id uuid references auth.users not null primary key,
   email text,
   role text default 'student' -- 'student' or 'teacher'
 );
+-- 2. Rooms (Multiplayer / Game Setup)
+CREATE TABLE IF NOT EXISTS public.rooms (
+  id uuid primary key default uuid_generate_v4(),
+  room_code text unique not null,
+  mode text not null, -- '1p', '1v1', '2v2'
+  status text default 'waiting', -- 'waiting', 'active', 'completed'
+  created_by uuid references auth.users(id),
+  created_at timestamp with time zone default now()
+);
 
--- 2. Game Sessions
-CREATE TABLE public.game_sessions (
+CREATE TABLE IF NOT EXISTS public.room_players (
+  id uuid primary key default uuid_generate_v4(),
+  room_id uuid references public.rooms(id) on delete cascade,
+  user_id uuid references auth.users(id),
+  joined_at timestamp with time zone default now(),
+  unique(room_id, user_id)
+);
+
+-- 3. Game Sessions
+CREATE TABLE IF NOT EXISTS public.game_sessions (
   session_id uuid primary key default uuid_generate_v4(),
   student_id uuid references public.profiles(id),
   case_id text,
@@ -27,7 +44,7 @@ CREATE TABLE public.game_sessions (
 );
 
 -- 3. Level Interactions
-CREATE TABLE public.level_interactions (
+CREATE TABLE IF NOT EXISTS public.level_interactions (
   id uuid primary key default uuid_generate_v4(),
   session_id uuid references public.game_sessions(session_id),
   level_number int,
@@ -58,3 +75,14 @@ CREATE POLICY "Teachers can view all interactions" ON public.level_interactions
   FOR SELECT USING (
     EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'teacher')
   );
+
+-- Room Policies
+ALTER TABLE public.rooms ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.room_players ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can read rooms" ON public.rooms FOR SELECT USING (true);
+CREATE POLICY "Anyone can insert rooms" ON public.rooms FOR INSERT WITH CHECK (true);
+CREATE POLICY "Anyone can update rooms" ON public.rooms FOR UPDATE USING (true);
+
+CREATE POLICY "Anyone can read room players" ON public.room_players FOR SELECT USING (true);
+CREATE POLICY "Anyone can insert room players" ON public.room_players FOR INSERT WITH CHECK (true);
