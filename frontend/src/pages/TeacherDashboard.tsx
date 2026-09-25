@@ -6,7 +6,6 @@ import { Users, BarChart3, Target, Activity } from 'lucide-react';
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 export default function TeacherDashboard() {
-  const [user, setUser] = useState<any>(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<any>(null);
@@ -20,8 +19,6 @@ export default function TeacherDashboard() {
         navigate('/login');
         return;
       }
-
-      setUser(session.user);
       
       // MVP Authorization Check
       if (session.user.email === 'teacher@gmail.com') {
