@@ -27,8 +27,8 @@ const HeatMap: React.FC<HeatMapProps> = ({ onClose }) => {
 
   useEffect(() => {
     const fetchMapData = async () => {
-      // SWAP THE DATA FETCHED: if UI says 2026, fetch 2016 from backend, and vice versa.
-      const fetchYear = selectedYear === 2026 ? 2016 : 2026;
+      // Swap the maps per user request: when 2016 is selected fetch 2026, and vice versa
+      const fetchYear = selectedYear === 2016 ? 2026 : (selectedYear === 2026 ? 2016 : selectedYear);
 
       try {
         const res = await fetch(`${API_URL}/map/heat?year=${fetchYear}`);

@@ -104,11 +104,10 @@ SDG11_TARGETS = [
 ]
 
 URBAN_PROBLEMS = [
-    "flooding", "urban heat", "loss of vegetation", "loss of green space",
-    "transport accessibility", "housing pressure", "informal settlement redevelopment",
-    "displacement", "urban expansion", "environmental degradation",
-    "waste infrastructure", "disaster vulnerability", "heritage preservation",
-    "unsafe public spaces", "resilience planning",
+    "A massive, sudden flood caused by rampant concrete paving and poor drainage.",
+    "A catastrophic urban heat island effect baking residents due to extreme deforestation.",
+    "A political scandal where heritage sites are being bulldozed for unauthorized transit stops.",
+    "A rapid spread of unsafe informal settlements lacking basic sanitation and facing immediate eviction threats."
 ]
 
 

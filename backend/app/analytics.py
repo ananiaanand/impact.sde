@@ -36,7 +36,9 @@ def get_analytics_overview(supabase: Client | None = Depends(get_supabase)):
             students_count = len(students)
             games_count = 12
 
-        average_understanding = round(sum(student["score"] for student in students) / len(students) * 100, 1)
+        average_understanding = 0.0
+        if len(students) > 0:
+            average_understanding = round(sum(student["score"] for student in students) / len(students) * 100, 1)
         most_mastered = "Quantum Forecasting"
 
         return {

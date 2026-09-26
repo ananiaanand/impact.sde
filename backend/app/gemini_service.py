@@ -270,3 +270,17 @@ def validate_case(blueprint: dict, levels: list[dict]) -> dict:
 def evaluate_final(blueprint: dict, player_findings: str) -> dict:
     prompt = prompts.final_evaluation_prompt(blueprint, player_findings)
     return _call_json(prompt, lambda: _mock_final_evaluation(blueprint, player_findings))
+
+
+def _mock_answer_evaluation(expected: str, equivalents: list[str], answer_type: str, player_answer: str) -> dict:
+    from .validation import validate_answer
+    correct = validate_answer(player_answer, expected, equivalents, answer_type)
+    if correct:
+        return {"correct": True, "message": "Correct. Next stage of the investigation unlocked."}
+    else:
+        return {"correct": False, "message": "Not quite. Re-check the evidence for this level."}
+
+
+def evaluate_answer(expected: str, equivalents: list[str], answer_type: str, player_answer: str) -> dict:
+    prompt = prompts.answer_evaluation_prompt(expected, equivalents, answer_type, player_answer)
+    return _call_json(prompt, lambda: _mock_answer_evaluation(expected, equivalents, answer_type, player_answer))

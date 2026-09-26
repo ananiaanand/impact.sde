@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Map, AlertCircle, CheckCircle2, Search, ArrowRight, Lightbulb } from 'lucide-react';
 import HeatMap from '../components/HeatMap';
@@ -40,6 +40,10 @@ const EvidenceBoard = () => {
   
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const completionCode = useMemo(() => {
+    return finalResult ? 'IMPACT-' + Math.random().toString(36).substr(2, 6).toUpperCase() : '';
+  }, [finalResult]);
 
   const startCase = async () => {
     setIsLoading(true);
@@ -247,6 +251,7 @@ const EvidenceBoard = () => {
                       <textarea 
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
+                        onPaste={(e) => e.preventDefault()}
                         placeholder="Reconstruct the entire causal chain. Explain how the events connect to each other and to SDG 11..."
                         className="w-full h-40 bg-[#fffdf6] border border-[#b7a26a] p-4 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#b23a2f] leading-relaxed"
                       />
@@ -260,6 +265,16 @@ const EvidenceBoard = () => {
                     </div>
                   ) : (
                     <div className="space-y-4 text-sm mt-6 animate-fade-in">
+                      <div className="bg-[#e9f2d9] border-2 border-[#4a6b3a] p-6 text-center shadow-lg" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
+                        <h3 className="text-2xl font-bold text-[#4a6b3a] mb-2 font-playfair uppercase">Congratulations!</h3>
+                        <p className="text-lg font-serif mb-4 text-[#2a2620]">You have successfully completed the investigation.</p>
+                        <div className="bg-white p-3 inline-block border border-[#4a6b3a] shadow-sm">
+                          <p className="text-xs uppercase text-[#4a6b3a] font-bold mb-1">Your Unique Completion Code</p>
+                          <p className="font-mono text-xl font-bold tracking-widest text-black">{completionCode}</p>
+                        </div>
+                        <p className="mt-4 font-bold text-[#b23a2f]">Please save this code number and share it with your mentor.</p>
+                      </div>
+
                       <div className="bg-white p-4 shadow-sm" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                         <div className="flex justify-between items-center mb-2">
                           <h4 className="font-bold text-[#8a2c22] uppercase">Evaluation Score</h4>
@@ -325,6 +340,7 @@ const EvidenceBoard = () => {
                     <textarea 
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
+                      onPaste={(e) => e.preventDefault()}
                       placeholder="Enter your answer based on evidence and research..."
                       className="w-full h-16 bg-[#fffdf6] border border-[#b7a26a] p-3 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#b23a2f]"
                       onKeyDown={(e) => {

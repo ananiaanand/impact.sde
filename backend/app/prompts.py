@@ -80,12 +80,14 @@ Validated case blueprint:
 NASA evidence available to draw clues from (ground truth, do not invent new values):
 {nasa_records}
 
-Generate {num_levels} levels plus a short case intro. Each level should progress the causal \
+Generate 4 levels plus a short case intro. Each level should progress the causal \
 chain above by one step, feel like a continuous detective story (not a quiz), and use a mix \
 of NASA-derived evidence and fictional in-world documents (planning docs, logs, interviews, \
 maps, statements). Clearly mark each evidence item's type as "nasa" (must include the exact \
 source record_id/value/timestamp/location from the data above) or "fictional" (invented \
 narrative document, no source_metadata).
+
+Make the investigation stories SPICY, engaging, and dramatic. Add a sense of urgency, corporate cover-ups, political intrigue, or high-stakes environmental collapse to keep the player hooked.
 
 CRITICAL: Format the `content` field to look like an authentic game asset, BUT ensure it is understandable to a student. 
 For "nasa" evidence, format it as a telemetry log, and ADD an AI interpretation that explains the real-world meaning of the data value so students can solve the puzzle. Example:
@@ -175,5 +177,30 @@ Respond as JSON:
   "sdg_connections": ["e.g. 11.5 - reason"],
   "missed_points": ["causal steps or connections the player's explanation did not mention"],
   "learning_summary": "string, 2-3 sentences on the real-world SDG 11 lesson"
+}}
+{JSON_ONLY_SUFFIX}"""
+
+
+def answer_evaluation_prompt(expected: str, equivalents: list[str], answer_type: str, player_answer: str) -> str:
+    return f"""{MASTER_SYSTEM_PROMPT}
+
+## TASK: ANSWER EVALUATOR
+
+The player was asked a question during an investigation.
+Expected canonical answer: {expected}
+Accepted equivalents: {equivalents}
+Answer type: {answer_type}
+
+Player's submitted answer:
+\"\"\"{player_answer}\"\"\"
+
+Determine if the player's answer is semantically correct and captures the core meaning of the expected answer or equivalents.
+If the answer type is "sdg_target", they must correctly identify the target number (e.g., 11.5).
+If the answer type is "semantic", evaluate if their explanation or term matches the intended concept, even if phrased differently.
+
+Respond as JSON:
+{{
+  "correct": true|false,
+  "message": "string, a brief in-character response to the player. If correct, confirm their finding. If incorrect, give a subtle nudge without giving away the answer. Make the tone fit the spicy, dramatic detective narrative."
 }}
 {JSON_ONLY_SUFFIX}"""

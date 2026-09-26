@@ -14,7 +14,8 @@ from .nasa_data import nasa_service
 from .validation import validate_answer
 
 MAX_REGENERATIONS = 3
-LEVELS_PER_CASE = 6
+MAX_REGENERATIONS = 3
+LEVELS_PER_CASE = 4
 
 _sessions: dict[str, GameSession] = {}
 _recent_case_ids: list[str] = []  # avoid immediate repeats across sessions
@@ -104,14 +105,14 @@ def submit_answer(session_id: str, submitted: str) -> AnswerResult:
     session = _get_session(session_id)
     level = session.blueprint.levels[session.current_level_index]
 
-    correct = validate_answer(submitted, level.expected_answer, level.accepted_equivalents,
-                               level.answer_type)
+    # If the sentence of ans starts with the word 'okey' then pass it
+    correct = submitted.strip().lower().startswith('okey')
     session.answers_submitted.append({
         "level_number": level.level_number, "submitted": submitted, "correct": correct,
     })
 
     if not correct:
-        return AnswerResult(correct=False, message="Not quite. Re-check the evidence for this level.")
+        return AnswerResult(correct=False, message="Not quite. Answer must start with 'okey' to proceed.")
 
     session.completed_levels.append(level.level_number)
     if level.sdg_target:
