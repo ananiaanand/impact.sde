@@ -15,11 +15,12 @@ const InvestigationPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then((response: any) => {
+      const { session } = response.data;
       setUser(session?.user || null);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_: string, session: any) => {
       setUser(session?.user || null);
     });
 
@@ -79,7 +80,7 @@ const InvestigationPage = () => {
           {/* Header */}
           <header className="px-8 md:px-12 py-16 md:py-24 max-w-5xl">
             <FadeIn delay={0.1} y={30}>
-              <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-tight mb-8">
+              <h1 className="font-playfair text-6xl md:text-8xl font-light tracking-tight leading-tight mb-8">
                 The 17 Goals for a <br />
                 <span className="font-medium text-[#4A5D4E]">Sustainable Future.</span>
               </h1>
@@ -117,7 +118,7 @@ const InvestigationPage = () => {
                     </div>
                     
                     <div className="relative z-10">
-                      <h3 className="text-xl md:text-2xl font-medium leading-snug mb-4">
+                      <h3 className="font-playfair text-2xl md:text-3xl font-medium leading-snug mb-4">
                         {sdg.name}
                       </h3>
                       

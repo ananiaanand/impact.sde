@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Map, AlertCircle, CheckCircle2, Search, ArrowRight, Lightbulb } from 'lucide-react';
 import HeatMap from '../components/HeatMap';
+import textureImg from '../assets/texture.avif';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -97,7 +98,8 @@ const EvidenceBoard = () => {
     try {
       const res = await fetch(`${API_URL}/session/${sessionId}/hint`, { method: 'POST' });
       const data = await res.json();
-      setHint(data.hint);
+      const mapHint = 'Satellite clue: compare the Bengaluru heat map by year to see how land surface temperatures changed between 2016 and 2026.';
+      setHint(`${data.hint} ${mapHint}`);
     } catch (err) {
       console.error("Hint failed", err);
     }
@@ -134,11 +136,11 @@ const EvidenceBoard = () => {
     return (
       <div className="min-h-screen bg-[#1c1a17] flex items-center justify-center p-6"
            style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, #262220 0%, transparent 40%), radial-gradient(circle at 80% 70%, #201d19 0%, transparent 45%)' }}>
-        <div className="bg-[#f2ead9] max-w-xl w-full p-10 rounded-sm shadow-2xl relative border-t-8 border-[#b23a2f]">
-          <div className="absolute -top-4 -left-4 border-2 border-[#b23a2f] text-[#b23a2f] font-mono px-4 py-1 -rotate-6 text-sm tracking-widest bg-[#f2ead9]">
+        <div className="bg-[#f2ead9] max-w-xl w-full p-10 rounded-sm shadow-2xl relative" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
+          <div className="absolute -top-4 -left-4 text-[#b23a2f] font-mono px-4 py-1 -rotate-6 text-sm tracking-widest bg-[#f2ead9]" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
             CLASSIFIED
           </div>
-          <h1 className="font-mono text-3xl font-bold mb-4 text-[#2a2620]">Active Investigation</h1>
+          <h1 className="font-playfair text-4xl font-bold mb-4 text-[#2a2620]">Active Investigation</h1>
           <p className="text-[#5a5343] mb-8 leading-relaxed">
             A new urban crisis has emerged. The details are currently unfolding, and we need your expertise. 
             Review the evidence, trace the causal chain, and identify the root SDG 11 failures.
@@ -173,7 +175,7 @@ const EvidenceBoard = () => {
       {/* Header */}
       <header className="px-8 py-6 flex flex-col sm:flex-row justify-between sm:items-end relative z-10 gap-4">
         <div>
-          <h1 className="font-mono text-3xl text-[#f2ead9] shadow-black drop-shadow-md">Active Case</h1>
+          <h1 className="font-playfair text-4xl text-[#f2ead9] shadow-black drop-shadow-md">Active Case</h1>
           <div className="font-mono text-sm text-[#caa24a] mt-1 tracking-widest">{urbanContext}</div>
         </div>
         <div className="text-left sm:text-right text-[#a89f8c] text-sm font-mono">
@@ -189,8 +191,8 @@ const EvidenceBoard = () => {
         
         {/* Left: Case Intro & Evidence Grid */}
         <div className="flex-1 lg:w-1/2 space-y-8">
-          <div className="bg-[#f2ead9] p-6 rounded-sm border-l-4 border-[#b23a2f] shadow-lg">
-            <h2 className="font-bold uppercase tracking-wider text-sm text-[#8a2c22] mb-2">Case Briefing</h2>
+          <div className="bg-[#f2ead9] p-6 rounded-sm shadow-lg" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
+            <h2 className="font-playfair font-bold uppercase tracking-wider text-lg text-[#8a2c22] mb-2">Case Briefing</h2>
             <p className="font-serif leading-relaxed text-[#5a5343]">{caseIntro}</p>
           </div>
           
@@ -207,7 +209,8 @@ const EvidenceBoard = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="bg-[#f2ead9] p-5 rounded-sm shadow-md border border-[#d8cba5]"
+                    className="bg-[#f2ead9] p-5 rounded-sm shadow-md"
+                    style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
@@ -218,7 +221,7 @@ const EvidenceBoard = () => {
                       </div>
                       <div className="w-2 h-2 rounded-full bg-[#c9a13b] shadow-sm" />
                     </div>
-                    <h3 className="font-mono font-bold text-lg leading-tight mb-2">{ev.title}</h3>
+                    <h3 className="font-playfair font-bold text-xl leading-tight mb-2">{ev.title}</h3>
                     <p className="text-sm font-serif leading-relaxed bg-[#fffdf6] p-3 border border-[#e8dfc7]">{ev.content}</p>
                   </motion.div>
                 ))}
@@ -229,13 +232,13 @@ const EvidenceBoard = () => {
 
         {/* Right: Active Panel (Investigation Task / Final Submission) */}
         <div className="lg:w-1/2 lg:sticky lg:top-8 self-start">
-          <div className="bg-[#f2ead9] rounded-sm shadow-2xl p-6 md:p-8 min-h-[500px]">
+          <div className="bg-[#f2ead9] rounded-sm shadow-2xl p-6 md:p-8 min-h-[500px]" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
             
             {finalMode ? (
               <AnimatePresence mode="wait">
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                  <h2 className="font-mono text-2xl font-bold border-b-2 border-[#b23a2f] pb-2 inline-block">Final Investigation</h2>
-                  <div className="text-sm bg-[#efe6cc] border border-[#d8cba5] p-4 rounded-sm leading-relaxed font-serif text-[#2a2620]">
+                  <h2 className="font-playfair text-3xl font-bold border-b-2 border-[#b23a2f] pb-2 inline-block">Final Investigation</h2>
+                  <div className="text-sm bg-[#efe6cc] p-4 rounded-sm leading-relaxed font-serif text-[#2a2620]" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                     {finalQuestion}
                   </div>
                   
@@ -257,25 +260,25 @@ const EvidenceBoard = () => {
                     </div>
                   ) : (
                     <div className="space-y-4 text-sm mt-6 animate-fade-in">
-                      <div className="bg-white p-4 border border-[#d8cba5] shadow-sm">
+                      <div className="bg-white p-4 shadow-sm" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                         <div className="flex justify-between items-center mb-2">
                           <h4 className="font-bold text-[#8a2c22] uppercase">Evaluation Score</h4>
                           <span className="font-mono text-2xl font-bold text-[#4a6b3a]">{Math.round(finalResult.score * 100)}%</span>
                         </div>
                       </div>
                       
-                      <div className="bg-white p-4 border border-[#d8cba5] shadow-sm">
+                      <div className="bg-white p-4 shadow-sm" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                         <h4 className="font-bold text-[#8a2c22] mb-2 uppercase">Case Summary</h4>
                         <p className="leading-relaxed">{finalResult.case_summary}</p>
                       </div>
                       
-                      <div className="bg-white p-4 border border-[#d8cba5] shadow-sm">
+                      <div className="bg-white p-4 shadow-sm" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                         <h4 className="font-bold text-[#8a2c22] mb-2 uppercase">SDG 11 Learning Summary</h4>
                         <p className="leading-relaxed">{finalResult.learning_summary}</p>
                       </div>
 
                       {finalResult.timeline?.length > 0 && (
-                        <div className="bg-white p-4 border border-[#d8cba5] shadow-sm">
+                        <div className="bg-white p-4 shadow-sm" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                           <h4 className="font-bold text-[#8a2c22] mb-2 uppercase">Actual Timeline (Causal Chain)</h4>
                           <ol className="list-decimal pl-5 space-y-2">
                             {finalResult.timeline.map((t: string, i: number) => <li key={i}>{t}</li>)}
@@ -284,7 +287,7 @@ const EvidenceBoard = () => {
                       )}
                       
                       {finalResult.missed_points?.length > 0 && (
-                        <div className="bg-[#fffdf6] p-4 border border-[#e8c565] shadow-sm">
+                        <div className="bg-[#fffdf6] p-4 shadow-sm" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                           <h4 className="font-bold text-[#b89342] mb-2 uppercase flex items-center gap-2">
                             <AlertCircle size={16} /> Missed Connections
                           </h4>
@@ -301,7 +304,7 @@ const EvidenceBoard = () => {
               <AnimatePresence mode="wait">
                 <motion.div key={currentLevel.level_number} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div>
-                    <h2 className="font-mono text-xl font-bold border-b-2 border-[#b23a2f] pb-2 inline-block">
+                    <h2 className="font-playfair text-2xl font-bold border-b-2 border-[#b23a2f] pb-2 inline-block">
                       {currentLevel.title}
                     </h2>
                   </div>
@@ -310,12 +313,12 @@ const EvidenceBoard = () => {
                     {currentLevel.story}
                   </div>
                   
-                  <div className="bg-[#e9dfc7] border border-[#d8cba5] p-4 rounded-sm text-sm">
+                  <div className="bg-[#e9dfc7] p-4 rounded-sm text-sm" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
                     <div className="font-bold text-[#8a2c22] mb-1 uppercase text-xs">Current Task</div>
                     <div className="font-semibold mb-3">{currentLevel.investigation_task}</div>
                     
                     <div className="font-bold text-[#8a2c22] mb-1 uppercase text-xs">Research Prompt</div>
-                    <div className="font-serif bg-[#fffdf6] p-3 border border-[#d8cba5]">{currentLevel.research_prompt}</div>
+                    <div className="font-serif bg-[#fffdf6] p-3" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>{currentLevel.research_prompt}</div>
                   </div>
 
                   <div className="mt-6 space-y-4">
@@ -350,8 +353,18 @@ const EvidenceBoard = () => {
                     </div>
 
                     {hint && (
-                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="bg-[#fffdf6] border border-[#e8c565] p-3 text-sm text-[#8a6a22]">
-                        <span className="font-bold uppercase text-xs mr-2">Hint:</span> {hint}
+                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="bg-[#fffdf6] p-3 text-sm text-[#8a6a22]" style={{ backgroundImage: `url(${textureImg})`, backgroundSize: 'cover', backgroundBlendMode: 'multiply' }}>
+                        <div className="flex flex-col gap-3">
+                          <div>
+                            <span className="font-bold uppercase text-xs mr-2">Hint:</span> {hint}
+                          </div>
+                          <button
+                            onClick={() => setIsMapOpen(true)}
+                            className="self-start border border-[#b23a2f] text-[#b23a2f] px-3 py-2 text-[11px] font-bold uppercase tracking-wider hover:bg-[#b23a2f]/10 transition-colors"
+                          >
+                            Open Bengaluru Heat Map
+                          </button>
+                        </div>
                       </motion.div>
                     )}
                     

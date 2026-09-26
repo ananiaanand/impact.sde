@@ -32,15 +32,17 @@ app.include_router(analytics.router)
 
 
 @app.get("/map/heat")
-def map_heat():
-    """GeoJSON FeatureCollection for Leaflet: 2012 vs 2026 LST per MODIS cell + delta_c."""
-    return nasa_geo.get_heat_diff()
+def map_heat(year: int = 2026):
+    """GeoJSON FeatureCollection for Leaflet: single-year Bangalore LST map or delta view."""
+    if year == 0:
+        return nasa_geo.get_heat_diff()
+    return nasa_geo.get_year_heat_map(year)
 
 
 @app.get("/map/hotspots")
-def map_hotspots(n: int = 5):
-    """Top-N warming cells. Frontend can drop pins / trigger heat clues here."""
-    return {"hotspots": nasa_geo.get_top_hotspots(n), "city_summary": nasa_geo.get_city_summary()}
+def map_hotspots(n: int = 5, year: int = 2026):
+    """Top-N hottest cells. The frontend can use this for teaching clues and map overlays."""
+    return {"hotspots": nasa_geo.get_top_hotspots(n, year), "city_summary": nasa_geo.get_city_summary(year)}
 
 
 @app.post("/session/start", response_model=SessionStartResponse)

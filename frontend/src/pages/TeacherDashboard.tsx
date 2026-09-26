@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Users, BarChart3, Target, Activity } from 'lucide-react';
+import { Users, BarChart3, Target, Activity, LogOut } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const tierColors = {
   at_risk: '#d65b4d',
   on_track: '#5f9d7c',
@@ -24,23 +24,19 @@ export default function TeacherDashboard() {
 
   useEffect(() => {
     const checkAuth = async () => {
+      const teacherSession = localStorage.getItem('impact_teacher_session');
       const {
         data: { session },
       } = await supabase.auth.getSession();
 
-      if (!session) {
-        navigate('/login');
+      if (teacherSession === 'active' || session?.user?.email === 'teacher@gmail.com') {
+        setIsAuthorized(true);
+        fetchStats();
+        setLoading(false);
         return;
       }
 
-      if (session.user.email === 'teacher@gmail.com') {
-        setIsAuthorized(true);
-        fetchStats();
-      } else {
-        alert('Access Denied. This area is restricted to teachers.');
-        navigate('/');
-      }
-      setLoading(false);
+      navigate('/login');
     };
 
     const fetchStats = async () => {
@@ -70,11 +66,13 @@ export default function TeacherDashboard() {
         </div>
         <button
           onClick={() => {
+            localStorage.removeItem('impact_teacher_session');
             supabase.auth.signOut();
-            navigate('/');
+            navigate('/login');
           }}
-          className="border border-[#b23a2f] text-[#b23a2f] px-4 py-2 rounded-sm text-sm uppercase tracking-widest font-bold hover:bg-[#b23a2f]/10"
+          className="border border-[#b23a2f] text-[#b23a2f] px-4 py-2 rounded-sm text-sm uppercase tracking-widest font-bold hover:bg-[#b23a2f]/10 flex items-center gap-2"
         >
+          <LogOut size={16} />
           Logout
         </button>
       </header>

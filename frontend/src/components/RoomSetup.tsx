@@ -39,7 +39,7 @@ const RoomSetup: React.FC<RoomSetupProps> = ({ user, onGameStart }) => {
         .on('postgres_changes', { event: '*', schema: 'public', table: 'room_players', filter: `room_id=eq.${activeRoom.id}` }, () => {
           fetchPlayers();
         })
-        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rooms', filter: `id=eq.${activeRoom.id}` }, (payload) => {
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rooms', filter: `id=eq.${activeRoom.id}` }, (payload: any) => {
           if (payload.new.status === 'active') {
             onGameStart(activeRoom.id);
           }
@@ -132,7 +132,7 @@ const RoomSetup: React.FC<RoomSetupProps> = ({ user, onGameStart }) => {
     const requiredPlayers = mode === '1v1' ? 2 : 4;
     return (
       <div className="w-full max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl border border-[#E0E0D8] text-[#2C3E2D]">
-        <h2 className="text-3xl font-light mb-6 text-center">Waiting for Players...</h2>
+        <h2 className="font-playfair text-4xl font-light mb-6 text-center">Waiting for Players...</h2>
         
         <div className="bg-[#F5F5F0] p-6 rounded-xl flex items-center justify-between mb-8">
           <div>
@@ -176,7 +176,7 @@ const RoomSetup: React.FC<RoomSetupProps> = ({ user, onGameStart }) => {
   return (
     <div className="w-full max-w-4xl mx-auto space-y-12 animate-fade-in">
       <div className="text-center">
-        <h2 className="text-4xl font-light mb-4">Select Game Mode</h2>
+        <h2 className="font-playfair text-5xl font-light mb-4">Select Game Mode</h2>
         <p className="text-[#5C6E5E]">Choose how you want to investigate SDG 11 in Bengaluru.</p>
       </div>
 
@@ -192,7 +192,7 @@ const RoomSetup: React.FC<RoomSetupProps> = ({ user, onGameStart }) => {
           <div className="w-12 h-12 bg-[#F5F5F0] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#b23a2f] group-hover:text-white transition-colors">
             <User size={24} />
           </div>
-          <h3 className="text-2xl font-medium mb-2">Solo Investigator</h3>
+          <h3 className="font-playfair text-3xl font-medium mb-2">Solo Investigator</h3>
           <p className="text-[#8A968B] text-sm">Take on the case by yourself. Uncover all the evidence at your own pace.</p>
         </div>
 
@@ -201,7 +201,7 @@ const RoomSetup: React.FC<RoomSetupProps> = ({ user, onGameStart }) => {
           <div className="w-12 h-12 bg-[#F5F5F0] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#b23a2f] group-hover:text-white transition-colors">
             <Users size={24} />
           </div>
-          <h3 className="text-2xl font-medium mb-2">1v1 Duel</h3>
+          <h3 className="font-playfair text-3xl font-medium mb-2">1v1 Duel</h3>
           <p className="text-[#8A968B] text-sm">Race against another investigator to find the root cause first.</p>
         </div>
 
@@ -210,7 +210,7 @@ const RoomSetup: React.FC<RoomSetupProps> = ({ user, onGameStart }) => {
           <div className="w-12 h-12 bg-[#F5F5F0] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#b23a2f] group-hover:text-white transition-colors">
             <Users size={24} />
           </div>
-          <h3 className="text-2xl font-medium mb-2">2v2 Squad</h3>
+          <h3 className="font-playfair text-3xl font-medium mb-2">2v2 Squad</h3>
           <p className="text-[#8A968B] text-sm">Team up with a partner and compete against another duo.</p>
         </div>
       </div>

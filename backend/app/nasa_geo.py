@@ -62,14 +62,54 @@ def get_heat_diff() -> dict:
     return result
 
 
-def get_top_hotspots(n: int = 5) -> list[dict]:
-    """Cells with the largest 2012->2026 warming. Used to seed heat-related clues."""
+def get_year_heat_map(year: int = 2026) -> dict:
+    """Return the raw GeoJSON for a single LST year so the frontend can toggle 2016/2026.
+
+    The current dataset includes a 2012 baseline and a 2026 current layer. The app
+    intentionally aliases 2016 to the 2012 baseline until a dedicated 2016 GeoJSON
+    file is added, which keeps the comparison meaningful and visibly different.
+    """
+    if year not in (2012, 2016, 2026):
+        raise ValueError("Unsupported heat map year. Use 2012, 2016, or 2026.")
+
+    data_year = 2012 if year == 2016 else year
+    path = PATH_2012 if data_year == 2012 else PATH_2026
+    return _load(path)
+
+
+def get_top_hotspots(n: int = 5, year: int = 2026) -> list[dict]:
+    """Return hottest cells for the selected year, or for the delta between 2012 and 2026 if a diff is requested."""
+    if year in (2012, 2016, 2026):
+        data = get_year_heat_map(year)
+        feats = sorted(data["features"], key=lambda f: float(f["properties"].get("lst_c", 0)), reverse=True)
+        return [
+            {
+                **f["properties"],
+                "year": year,
+                "city": "Bengaluru",
+            }
+            for f in feats[:n]
+        ]
+
     diff = get_heat_diff()
     feats = sorted(diff["features"], key=lambda f: f["properties"]["delta_c"], reverse=True)
     return [f["properties"] for f in feats[:n]]
 
 
-def get_city_summary() -> dict:
+def get_city_summary(year: int = 2026) -> dict:
+    if year in (2012, 2016, 2026):
+        data = get_year_heat_map(year)
+        values = [float(f["properties"].get("lst_c", 0)) for f in data["features"]]
+        if not values:
+            return {"cells": 0, "year": year}
+        return {
+            "cells": len(values),
+            "year": year,
+            "mean_lst_c": round(sum(values) / len(values), 2),
+            "max_lst_c": round(max(values), 2),
+            "min_lst_c": round(min(values), 2),
+        }
+
     diff = get_heat_diff()
     deltas = [f["properties"]["delta_c"] for f in diff["features"]]
     if not deltas:

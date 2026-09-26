@@ -130,13 +130,25 @@ def _mock_levels(blueprint: dict, nasa_records: list[dict], num_levels: int = 6)
             var = var_list[i % len(var_list)]
             recs = sorted(by_var[var], key=lambda r: r["timestamp"])
             for r in recs[:2]:
+                interp_map = {
+                    "NDVI_vegetation_index": "This indicates a severe loss of green space and vegetation in the district.",
+                    "impervious_surface_pct": "This shows an excessive expansion of concrete and built surfaces, reducing natural drainage.",
+                    "land_surface_temperature": "This highlights a significant rise in local temperatures, contributing to an urban heat island effect.",
+                    "flood_extent": "This confirms widespread water accumulation, pointing to inadequate drainage infrastructure.",
+                    "informal_settlement_area": "This reveals the unplanned expansion of vulnerable housing structures without proper services.",
+                    "road_network_density": "This indicates insufficient transport infrastructure to support the growing population.",
+                    "transit_stop_coverage_pct": "This shows a critical lack of public transit options for the residents."
+                }
+                interp = interp_map.get(var, f"This indicates an abnormal {var.replace('_', ' ')} reading that warrants investigation.")
+
                 ev.append({
                     "id": f"ev-{lvl_num}-{r['record_id']}",
                     "type": "nasa",
                     "title": f"{var.replace('_', ' ').title()} record ({r['timestamp']})",
                     "content": f"SATELLITE TELEMETRY (MODIS SENSOR) -- [TIMESTAMP: {r['timestamp']}]\n\n"
                                f"LOCATION SCAN: {r['location']}\n"
-                               f"ANALYSIS: {var.replace('_', ' ').title()} recorded at {r['value']} {r.get('unit', '')}.",
+                               f"ANALYSIS: {var.replace('_', ' ').title()} recorded at {r['value']} {r.get('unit', '')}.\n\n"
+                               f">> SYSTEM INTERPRETATION: {interp}",
                     "source_metadata": {
                         "source": "NASA", "dataset_id": "NASA-EARTHDATA-URBAN-SAMPLE-2026",
                         "record_id": r["record_id"], "variable": var,

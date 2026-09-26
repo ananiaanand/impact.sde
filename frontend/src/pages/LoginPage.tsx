@@ -3,6 +3,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import FadeIn from '../components/FadeIn';
 import { supabase } from '../lib/supabase';
 
+const TEACHER_EMAIL = 'teacher@gmail.com';
+const TEACHER_PASSWORD = 'teacher';
+
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +17,14 @@ const LoginPage = () => {
   const from = location.state?.from?.pathname || '/';
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const teacherSession = localStorage.getItem('impact_teacher_session');
+    if (teacherSession === 'active') {
+      navigate('/teacher', { replace: true });
+      return;
+    }
+
+    supabase.auth.getSession().then((response: any) => {
+      const { session } = response.data;
       if (session) {
         navigate(from, { replace: true });
       }
@@ -25,6 +35,16 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (normalizedEmail === TEACHER_EMAIL && password === TEACHER_PASSWORD) {
+      localStorage.setItem('impact_teacher_session', 'active');
+      navigate('/teacher', { replace: true });
+      setLoading(false);
+      return;
+    }
+
+    localStorage.removeItem('impact_teacher_session');
 
     let result;
     if (isSignUp) {
@@ -38,7 +58,7 @@ const LoginPage = () => {
     } else {
       navigate(from, { replace: true });
     }
-    
+
     setLoading(false);
   };
 

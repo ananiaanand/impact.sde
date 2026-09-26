@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         kanit: ["Kanit", "sans-serif"],
+        playfair: ["'Playfair Display SC'", "serif"],
       },
     },
   },
